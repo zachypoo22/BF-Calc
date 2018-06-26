@@ -77,13 +77,13 @@ class Window(QWidget):
             neck = float(self.neckInput.text()) * 2.54 # convert to cm
             waist = float(self.waistInput.text()) * 2.54 # convert to cm
             height = ( int(self.ftInput.text())*12 + float(self.inInput.text()) ) * 2.54 # conversion to cm
+
+            fat = 495 / (1.0324 - .19077 * math.log10(waist - neck) + .15456 * math.log10(height)) - 450
+
+            self.result.setText("Body fat %: " + str(round(fat, 5)))
+
         except Exception as e:
             print(e)
-
-        fat = 495 / (1.0324 - .19077 * math.log10(waist - neck) + .15456 * math.log10(height)) - 450
-
-        self.result.setText("Body fat %: " + str(round(fat, 5)))
-
 
 app = QApplication(sys.argv)
 window = Window()
