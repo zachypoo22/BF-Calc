@@ -97,7 +97,7 @@ class Window(QWidget):
 
         print(self.waist_sizes())
         # print(**self.waist_sizes())
-        waists = "Essential: {ess} Athletic: {athl} Fit: {fit} Average: {avg}".format(**self.waist_sizes())
+        waists = "Waist: Essential: {ess}in | Athletic: {athl}in | Fit: {fit}in | Average: {avg}in".format(**self.waist_sizes())
         self.waistLabel.setText(waists)
 
     def waist_sizes(self):
