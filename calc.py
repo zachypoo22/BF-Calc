@@ -95,7 +95,8 @@ class Window(QWidget):
         except Exception as e:
             print(e)
 
-        # print(self.waist_sizes())
+        print(self.waist_sizes())
+        # print(**self.waist_sizes())
         waists = "Essential: {ess} Athletic: {athl} Fit: {fit} Average: {avg}".format(**self.waist_sizes())
         self.waistLabel.setText(waists)
 
@@ -104,10 +105,10 @@ class Window(QWidget):
 
         for i in range (25, 50):
             fat = 495 / (1.0324 - .19077 * math.log10(i*2.54 - self.neck) + .15456 * math.log10(self.height)) - 450
-            if math.floor(fat) in [1,2,3,4,5]: dic['essential [5%]'] = i;
-            if math.floor(fat) in [6,7,8,9,10,11,12,13]: dic['Athletic [13%]'] = i;
-            if math.floor(fat) in [14,15,16,17]: dic['fit [17%]'] = i;
-            if math.floor(fat) in [18,19,20,21,22,23,24,25]: dic['average [25%]'] = i;
+            if math.floor(fat) in [1,2,3,4,5]: dic['ess'] = i;
+            if math.floor(fat) in [6,7,8,9,10,11,12,13]: dic['athl'] = i;
+            if math.floor(fat) in [14,15,16,17]: dic['fit'] = i;
+            if math.floor(fat) in [18,19,20,21,22,23,24,25]: dic['avg'] = i;
 
         # waist = math.pow(10, ((-495 / ( fat + 450 - + .15456 * math.log10(height)) ) - 1.0324 ) / .19077 ) + neck
         # waist = math.pow( 10, (((495 / fat) + 450 - .15456 * math.log10(height)) - 1.0324)/ - .19077) + neck
