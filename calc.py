@@ -32,6 +32,7 @@ class Window(QWidget):
         self.waistInput = QLineEdit()
         self.ftInput = QLineEdit()
         self.inInput = QLineEdit()
+        self.waistLabel = QLabel()
 
         self.butt = QPushButton("Submit")
         self.result = QLabel()
@@ -60,13 +61,18 @@ class Window(QWidget):
         # inputLayout.addWidget(self.butt, 5, 0)
         # inputLayout.addWidget(self.result, 6, 0, 5, 1)
 
+        bottomLayout = QVBoxLayout()
+
         submitLayout = QHBoxLayout()
         submitLayout.addWidget(self.butt)
         submitLayout.addWidget(self.result)
 
+        bottomLayout.addLayout(submitLayout)
+        bottomLayout.addWidget(self.waistLabel)
+
         mainLayout = QVBoxLayout()
         mainLayout.addLayout(inputLayout)
-        mainLayout.addLayout(submitLayout)
+        mainLayout.addLayout(bottomLayout)
 
         self.setLayout(mainLayout)
         self.show()
@@ -74,6 +80,7 @@ class Window(QWidget):
     def main(self):
         self.butt.clicked.connect(self.click)
         # print(self.waist_sizes())
+        # print(self.waist_sizes().values())
 
     def click(self):
         try:
@@ -88,10 +95,12 @@ class Window(QWidget):
         except Exception as e:
             print(e)
 
-        print(self.waist_sizes())
+        # print(self.waist_sizes())
+        waists = "Essential: {ess} Athletic: {athl} Fit: {fit} Average: {avg}".format(**self.waist_sizes())
+        self.waistLabel.setText(waists)
 
     def waist_sizes(self):
-        dic = {'essential [5%]':0, 'Athletic [13%]': 0, 'fit [17%]' : 0, 'average [25%]' : 0}
+        dic = {'ess':0, 'athl': 0, 'fit' : 0, 'avg' : 0}
 
         for i in range (25, 50):
             fat = 495 / (1.0324 - .19077 * math.log10(i*2.54 - self.neck) + .15456 * math.log10(self.height)) - 450
