@@ -13,6 +13,8 @@ class Window(QWidget):
         self.top = 500
         self.left = 500
 
+        self.neck = 0
+
         self.setupUi()
         self.main()
 
@@ -71,19 +73,36 @@ class Window(QWidget):
 
     def main(self):
         self.butt.clicked.connect(self.click)
+        # print(self.waist_sizes())
 
     def click(self):
         try:
-            neck = float(self.neckInput.text()) * 2.54 # convert to cm
+            self.neck = float(self.neckInput.text()) * 2.54 # convert to cm
             waist = float(self.waistInput.text()) * 2.54 # convert to cm
-            height = ( int(self.ftInput.text())*12 + float(self.inInput.text()) ) * 2.54 # conversion to cm
+            self.height = ( int(self.ftInput.text())*12 + float(self.inInput.text()) ) * 2.54 # conversion to cm
 
-            fat = 495 / (1.0324 - .19077 * math.log10(waist - neck) + .15456 * math.log10(height)) - 450
+            fat = 495 / (1.0324 - .19077 * math.log10(waist - self.neck) + .15456 * math.log10(self.height)) - 450
 
             self.result.setText("Body fat %: " + str(round(fat, 5)))
 
         except Exception as e:
             print(e)
+
+        print(self.waist_sizes())
+
+    def waist_sizes(self):
+        dic = {'essential [5%]':0, 'Athletic [13%]': 0, 'fit [17%]' : 0, 'average [25%]' : 0}
+
+        for i in range (25, 50):
+            fat = 495 / (1.0324 - .19077 * math.log10(i*2.54 - self.neck) + .15456 * math.log10(self.height)) - 450
+            if math.floor(fat) in [1,2,3,4,5]: dic['essential [5%]'] = i;
+            if math.floor(fat) in [6,7,8,9,10,11,12,13]: dic['Athletic [13%]'] = i;
+            if math.floor(fat) in [14,15,16,17]: dic['fit [17%]'] = i;
+            if math.floor(fat) in [18,19,20,21,22,23,24,25]: dic['average [25%]'] = i;
+
+        # waist = math.pow(10, ((-495 / ( fat + 450 - + .15456 * math.log10(height)) ) - 1.0324 ) / .19077 ) + neck
+        # waist = math.pow( 10, (((495 / fat) + 450 - .15456 * math.log10(height)) - 1.0324)/ - .19077) + neck
+        return (dic)
 
 app = QApplication(sys.argv)
 window = Window()
